@@ -1,5 +1,5 @@
 import import_test
-import numpy as np
+# import numpy as np
 
 # import abaqus
 # from abaqus import *
