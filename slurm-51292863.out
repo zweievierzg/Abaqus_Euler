@@ -1,0 +1,27 @@
+Many modules are hidden in this stack. Use "module --show_hidden spider SOFTWARE" if you are not able to find the required software
+
+Lmod is automatically replacing "gcc/12.2.0" with
+"intel-oneapi-compilers/2023.2.0".
+
+Analysis initiated from SIMULIA established products
+Abaqus JOB test
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 12 tokens from Flexnet server lic-abaqus.ethz.ch.
+<1226 out of 1714 licenses remain available>.
+Begin Analysis Input File Processor
+Tue 09 Dec 2025 05:43:41 PM CET
+Run pre
+Tue 09 Dec 2025 05:43:43 PM CET
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Tue 09 Dec 2025 05:43:43 PM CET
+Run standard
+Tue 09 Dec 2025 05:43:47 PM CET
+End Abaqus/Standard Analysis
+Begin SIM Wrap-up
+Tue 09 Dec 2025 05:43:47 PM CET
+Run SMASimUtility
+Tue 09 Dec 2025 05:43:48 PM CET
+End SIM Wrap-up
+Abaqus JOB test COMPLETED
