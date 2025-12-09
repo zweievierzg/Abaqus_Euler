@@ -7,6 +7,7 @@
 
 module load stack/2024-06 intel-oneapi-compilers/2023.2.0 abaqus/2023 libjpeg-turbo/3.0.0
 
-abaqus job=test cpus=8 input=Job-1 scratch=$TMPDIR mp_mode=THREADS
 
-abaqus python main.py
+
+abaqus python my_script.py
+

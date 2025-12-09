@@ -128,7 +128,7 @@ def create_cantilever_model(folder_name, nx,ny,nz):
         'SENER', 'EVOL'))
     
 
-    working_directory = os.path.join(p.work_path, folder_name)
+    working_directory = ~/Abaqus_Euler$
     if not os.path.exists(working_directory):
         os.makedirs(working_directory)
 
@@ -143,9 +143,16 @@ def main():
     message_single_cantilever_step = "Test Message.\n"
     sys.__stdout__.write(message_single_cantilever_step)
     sys.__stdout__.flush()
-    print("Running main function...")
-    arr = np.array([1, 2, 3])
-    print("Numpy array:", arr)
-    import_test.test_array()
+    sys.__stdout__.write(message_single_cantilever_step)
+    sys.__stdout__.flush()
+    arr1 = np.array([1, 2, 3])
+    sys.__stdout__.write('arr1'+str(arr1) + "\n")
+    sys.__stdout__.flush()
+    arr2 = import_test.test_array()
+    sys.__stdout__.write('arr2'+str(arr2) + "\n")
+    sys.__stdout__.flush()
+    create_cantilever_model("Cantilever_Test", 4,4,8)
+
+
 
 
