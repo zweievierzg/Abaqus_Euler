@@ -127,14 +127,15 @@ def create_cantilever_model(folder_name, nx,ny,nz):
         'CDISP', 'CF', 'CSTRESS', 'LE', 'PE', 'PEEQ', 'PEMAG', 'RF', 'S', 'U', 
         'SENER', 'EVOL'))
     
+    home = os.path.expanduser("~")
 
-    working_directory = ~/Abaqus_Euler$
-    if not os.path.exists(working_directory):
-        os.makedirs(working_directory)
+    working_directory = os.path.join(home, "Abaqus_Euler")
+
+    # Create directory if it doesn't exist
+    os.makedirs(working_directory, exist_ok=True)
 
     file_name = folder_name + "_base_model.cae"
     file_path = os.path.join(working_directory, file_name)
-
 
     mdb.saveAs(pathName=file_path)
 
