@@ -9,5 +9,5 @@ module load stack/2024-06 intel-oneapi-compilers/2023.2.0 abaqus/2023 libjpeg-tu
 
 
 
-abaqus python my_script.py
+abaqus python main.py
 
