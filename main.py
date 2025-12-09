@@ -1,11 +1,10 @@
 import import_test
 import numpy as np
 
-import abaqus
-from abaqus import *
-from abaqusConstants import *
-import parameters as p
-reload(p)
+# import abaqus
+# from abaqus import *
+# from abaqusConstants import *
+
 import os
 import sys
 
