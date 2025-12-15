@@ -2,3 +2,4 @@ abaqus*.*
 *.cae
 *.jnl
 __pycache__
+Job-1.*

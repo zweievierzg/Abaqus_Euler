@@ -1,149 +1,130 @@
 import import_test
 import numpy as np
 
-# import abaqus
-# from abaqus import *
-# from abaqusConstants import *
+import abaqus
+from abaqus import *
+from abaqusConstants import *
 
 
 
-# import section
-# import regionToolset
-# import displayGroupMdbToolset as dgm
-# import part
-# import material
-# import assembly
-# import step
-# import interaction
-# import load
-# import mesh
-# import optimization
-# import job
-# import sketch
-# import visualization
-# import xyPlot
-# import displayGroupOdbToolset as dgo
-# import connectorBehavior
 
 import os
 import sys
 
-def create_cantilever_model(folder_name, nx,ny,nz,file_path):
-
-    ## Create Base Model for Cantilever Beam
-
-
-    # ensures that the model is empty
-    mdb.Model(name='temp', modelType=STANDARD_EXPLICIT)
-    assembly_= mdb.models['temp'].rootAssembly
-    assembly_= mdb.models['Model-1'].rootAssembly
-    del mdb.models['Model-1']
-    assembly_= mdb.models['temp'].rootAssembly
-    mdb.Model(name='Model-1', modelType=STANDARD_EXPLICIT)
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_= mdb.models['temp'].rootAssembly
-    del mdb.models['temp']
-    assembly_= mdb.models['Model-1'].rootAssembly
-
-
-    
-    sketch_ = mdb.models['Model-1'].ConstrainedSketch(name='__profile__', 
+def Euler_Test_Model(file_path):
+    import section
+    import regionToolset
+    import displayGroupMdbToolset as dgm
+    import part
+    import material
+    import assembly
+    import step
+    import interaction
+    import load
+    import mesh
+    import optimization
+    import job
+    import sketch
+    import visualization
+    import xyPlot
+    import displayGroupOdbToolset as dgo
+    import connectorBehavior
+    session.viewports['Viewport: 1'].setValues(displayedObject=None)
+    s = mdb.models['Model-1'].ConstrainedSketch(name='__profile__', 
         sheetSize=200.0)
-    sketch_geometry, sketch_vertices, sketch_dimensions, sketch_constraints = sketch_.geometry, sketch_.vertices, sketch_.dimensions, sketch_.constraints
-    sketch_.setPrimaryObject(option=STANDALONE)
-    sketch_.rectangle(point1=(0.0, 0.0), point2=(50.0, 50.0))
-    part_ = mdb.models['Model-1'].Part(name='Part-1', dimensionality=THREE_D, 
+    g, v, d, c = s.geometry, s.vertices, s.dimensions, s.constraints
+    s.setPrimaryObject(option=STANDALONE)
+    s.rectangle(point1=(0.0, 0.0), point2=(50.0, 50.0))
+    p = mdb.models['Model-1'].Part(name='Part-1', dimensionality=THREE_D, 
         type=DEFORMABLE_BODY)
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    part_.BaseSolidExtrude(sketch=sketch_, depth=100.0)
-    sketch_.unsetPrimaryObject()
-    part_ = mdb.models['Model-1'].parts['Part-1']
+    p = mdb.models['Model-1'].parts['Part-1']
+    p.BaseSolidExtrude(sketch=s, depth=50.0)
+    s.unsetPrimaryObject()
+    p = mdb.models['Model-1'].parts['Part-1']
+    session.viewports['Viewport: 1'].setValues(displayedObject=p)
     del mdb.models['Model-1'].sketches['__profile__']
-    mdb.models['Model-1'].Material(name='Placeholder')
-    mdb.models['Model-1'].materials['Placeholder'].Elastic(table=((10.0, 0.3), ))
+    session.viewports['Viewport: 1'].partDisplay.setValues(sectionAssignments=ON, 
+        engineeringFeatures=ON)
+    session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(
+        referenceRepresentation=OFF)
+    mdb.models['Model-1'].Material(name='Material-1')
+    mdb.models['Model-1'].materials['Material-1'].Elastic(table=((20.0, 0.48), ))
     mdb.models['Model-1'].HomogeneousSolidSection(name='Section-1', 
-        material='Placeholder', thickness=None)
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    c = part_.cells
+        material='Material-1', thickness=None)
+    p = mdb.models['Model-1'].parts['Part-1']
+    c = p.cells
     cells = c.getSequenceFromMask(mask=('[#1 ]', ), )
-    region = part_.Set(cells=cells, name='Set-1')
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    part_.SectionAssignment(region=region, sectionName='Section-1', offset=0.0, 
+    region = p.Set(cells=cells, name='Set-1')
+    p = mdb.models['Model-1'].parts['Part-1']
+    p.SectionAssignment(region=region, sectionName='Section-1', offset=0.0, 
         offsetType=MIDDLE_SURFACE, offsetField='', 
         thicknessAssignment=FROM_SECTION)
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_.DatumCsysByDefault(CARTESIAN)
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    assembly_.Instance(name='Part-1-1', part=part_, dependent=ON)
+    a = mdb.models['Model-1'].rootAssembly
+    session.viewports['Viewport: 1'].setValues(displayedObject=a)
+    session.viewports['Viewport: 1'].assemblyDisplay.setValues(interactions=OFF, 
+        constraints=OFF, connectors=OFF, engineeringFeatures=OFF)
+    a = mdb.models['Model-1'].rootAssembly
+    a.DatumCsysByDefault(CARTESIAN)
+    p = mdb.models['Model-1'].parts['Part-1']
+    a.Instance(name='Part-1-1', part=p, dependent=ON)
+    session.viewports['Viewport: 1'].partDisplay.setValues(sectionAssignments=OFF, 
+        engineeringFeatures=OFF, mesh=ON)
+    session.viewports['Viewport: 1'].partDisplay.meshOptions.setValues(
+        meshTechnique=ON)
     p1 = mdb.models['Model-1'].parts['Part-1']
-
-    ## specify the number of elements in each direction
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    e = part_.edges
-    pickedEdges = e.getSequenceFromMask(mask=('[#10 ]', ), )
-    part_.seedEdgeByNumber(edges=pickedEdges, number= nx, constraint=FINER)
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    e = part_.edges
-    pickedEdges = e.getSequenceFromMask(mask=('[#80 ]', ), )
-    part_.seedEdgeByNumber(edges=pickedEdges, number= ny , constraint=FINER)
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    e = part_.edges
-    pickedEdges = e.getSequenceFromMask(mask=('[#20 ]', ), )
-    part_.seedEdgeByNumber(edges=pickedEdges, number= nz, constraint=FINER)
-    part_ = mdb.models['Model-1'].parts['Part-1']
-    part_.generateMesh()
-
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_.regenerate()
-
-    assembly_= mdb.models['Model-1'].rootAssembly
-    f1 = assembly_.instances['Part-1-1'].faces
-    faces1 = f1.getSequenceFromMask(mask=('[#10 ]', ), )
-    region = assembly_.Set(faces=faces1, name='Fixed_Face')
+    session.viewports['Viewport: 1'].setValues(displayedObject=p1)
+    p = mdb.models['Model-1'].parts['Part-1']
+    p.seedPart(size=5.0, deviationFactor=0.1, minSizeFactor=0.1)
+    p = mdb.models['Model-1'].parts['Part-1']
+    p.generateMesh()
+    a = mdb.models['Model-1'].rootAssembly
+    a.regenerate()
+    session.viewports['Viewport: 1'].setValues(displayedObject=a)
+    session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=ON, bcs=ON, 
+        predefinedFields=ON, connectors=ON)
+    session.viewports['Viewport: 1'].view.setValues(nearPlane=129.037, 
+        farPlane=240.192, width=119.492, height=60.5523, cameraPosition=(
+        36.492, -31.9049, 200.26), cameraUpVector=(-0.471156, 0.88092, 
+        -0.0446285), cameraTarget=(26.049, 22.9021, 26.049))
+    a = mdb.models['Model-1'].rootAssembly
+    f1 = a.instances['Part-1-1'].faces
+    faces1 = f1.getSequenceFromMask(mask=('[#8 ]', ), )
+    region = a.Set(faces=faces1, name='Set-1')
     mdb.models['Model-1'].EncastreBC(name='BC-1', createStepName='Initial', 
         region=region, localCsys=None)
-    
-    # mdb.saveAs(pathName=file_path)
-
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_.ReferencePoint(point=(0.0, -20.0, 100.0))
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_.features['RP-1'].setValues(xValue=25.0)
-    assembly_= mdb.models['Model-1'].rootAssembly
-    assembly_.regenerate()
-    assembly_= mdb.models['Model-1'].rootAssembly
-    r1 = assembly_.referencePoints
-    refPoints1=(r1[5], )
-    assembly_.Set(referencePoints=refPoints1, name='Reference_Point')
-    assembly_= mdb.models['Model-1'].rootAssembly
-    region1= assembly_.sets['Reference_Point']
-    assembly_= mdb.models['Model-1'].rootAssembly
-    e1 = assembly_.instances['Part-1-1'].edges
-    edges1 = e1.getSequenceFromMask(mask=('[#400 ]', ), )
-    region2= assembly_.Set(edges=edges1, name='Load_Edge')
-    mdb.models['Model-1'].Coupling(name='Constraint-1', controlPoint=region1, 
-        surface=region2, influenceRadius=WHOLE_SURFACE, couplingType=KINEMATIC, 
-        alpha=0.0, localCsys=None, u1=ON, u2=ON, u3=ON, ur1=ON, ur2=ON, ur3=ON)
-
+    session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
+        predefinedFields=OFF, connectors=OFF, adaptiveMeshConstraints=ON)
     mdb.models['Model-1'].StaticStep(name='Step-1', previous='Initial')
-
-    assembly_= mdb.models['Model-1'].rootAssembly
-    region = assembly_.sets['Reference_Point']
-    mdb.models['Model-1'].ConcentratedForce(name='Load-1', createStepName='Step-1', 
-        region=region, cf2=-1.0, distributionType=UNIFORM, field='', 
-        localCsys=None)
-
-    assembly_= mdb.models['Model-1'].rootAssembly
-    f1 = assembly_.instances['Part-1-1'].faces
-    faces1 = f1.getSequenceFromMask(mask=('[#20 ]', ), )
-    assembly_.Set(faces=faces1, name='Fixed_Face')
-
-    mdb.models['Model-1'].fieldOutputRequests['F-Output-1'].setValues(variables=(
-        'CDISP', 'CF', 'CSTRESS', 'LE', 'PE', 'PEEQ', 'PEMAG', 'RF', 'S', 'U', 
-        'SENER', 'EVOL'))
+    session.viewports['Viewport: 1'].assemblyDisplay.setValues(step='Step-1')
+    session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=ON, bcs=ON, 
+        predefinedFields=ON, connectors=ON, adaptiveMeshConstraints=OFF)
+    session.viewports['Viewport: 1'].view.setValues(nearPlane=121.206, 
+        farPlane=246.063, width=112.24, height=56.8777, cameraPosition=(
+        78.2338, 115.244, 175.82), cameraUpVector=(-0.616751, 0.572147, 
+        -0.540617), cameraTarget=(26.4305, 24.2471, 25.8256))
+    a = mdb.models['Model-1'].rootAssembly
+    s1 = a.instances['Part-1-1'].faces
+    side1Faces1 = s1.getSequenceFromMask(mask=('[#2 ]', ), )
+    region = a.Surface(side1Faces=side1Faces1, name='Surf-1')
+    mdb.models['Model-1'].Pressure(name='Load-1', createStepName='Step-1', 
+        region=region, distributionType=UNIFORM, field='', magnitude=0.1, 
+        amplitude=UNSET)
+    session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
+        predefinedFields=OFF, connectors=OFF)
     
     mdb.saveAs(pathName=file_path)
+
+
+    mdb.Job(name='Job-1', model='Model-1', description='', type=ANALYSIS, 
+        atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, 
+        memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, 
+        explicitPrecision=SINGLE, nodalOutputPrecision=SINGLE, echoPrint=OFF, 
+        modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='', 
+        scratch='', resultsFormat=ODB, numThreadsPerMpiProcess=1, 
+        multiprocessingMode=DEFAULT, numCpus=1, numGPUs=0)
+    mdb.jobs['Job-1'].submit(consistencyChecking=OFF)
+
+    
     
 
 
@@ -165,12 +146,11 @@ def main():
 
 
     ## windows path for blade server
-    # working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
+    working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
 
     ## unix path for Euler
-    home = os.path.expanduser("~")
-
-    working_directory = os.path.join(home, "Abaqus_Euler")
+    #home = os.path.expanduser("~")
+    # working_directory = os.path.join(home, "Abaqus_Euler")
 
     # Create directory if it doesn't exist
     os.makedirs(working_directory, exist_ok=True)
@@ -181,7 +161,8 @@ def main():
 
     
     # create an abaqus model
-    create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
+    # create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
+    Euler_Test_Model(file_path)
 
 
     # mdb.saveAs(pathName=file_path)
