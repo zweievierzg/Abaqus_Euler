@@ -9,5 +9,6 @@ module load stack/2024-06 intel-oneapi-compilers/2023.2.0 abaqus/2023 libjpeg-tu
 
 
 
-abaqus python main.py
+# abaqus python main.py
+abaqus cae noGUI=main.py
 
