@@ -3,10 +3,8 @@ Should run Abaqus on Euler HPC.
 
 - Running on windows works
 
-- Running on Euler with abaqus imports active leads to following error:
+- To run on Euler the path was changed to a unix path. Check in main() in main.py Running on Euler leads to following error:
     ![alt text](image.png)
 
-- Turning off these abaqus imports: ![alt text](image-1.png)
 
-does not cause any errors but nothing seems to happen. When inspecting the slurm out file this appears:
     
