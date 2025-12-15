@@ -165,12 +165,12 @@ def main():
 
 
     ## windows path for blade server
-    working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
+    # working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
 
     ## unix path for Euler
-    # home = os.path.expanduser("~")
+    home = os.path.expanduser("~")
 
-    # working_directory = os.path.join(home, "Abaqus_Euler")
+    working_directory = os.path.join(home, "Abaqus_Euler")
 
     # Create directory if it doesn't exist
     os.makedirs(working_directory, exist_ok=True)
