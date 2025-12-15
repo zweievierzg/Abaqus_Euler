@@ -157,7 +157,7 @@ def main():
         os.makedirs(working_directory)
 
     folder_name = "Euler_Test"
-    file_name = folder_name + "_model.cae"
+    file_name = folder_name + "_model_2.cae"
     file_path = os.path.join(working_directory, file_name)
 
     
