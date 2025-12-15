@@ -1,9 +1,9 @@
 import import_test
 import numpy as np
 
-import abaqus
-from abaqus import *
-from abaqusConstants import *
+# import abaqus
+# from abaqus import *
+# from abaqusConstants import *
 
 
 
