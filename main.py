@@ -1,14 +1,34 @@
 import import_test
 import numpy as np
 
-# import abaqus
-# from abaqus import *
-# from abaqusConstants import *
+import abaqus
+from abaqus import *
+from abaqusConstants import *
+
+
+
+import section
+import regionToolset
+import displayGroupMdbToolset as dgm
+import part
+import material
+import assembly
+import step
+import interaction
+import load
+import mesh
+import optimization
+import job
+import sketch
+import visualization
+import xyPlot
+import displayGroupOdbToolset as dgo
+import connectorBehavior
 
 import os
 import sys
 
-def create_cantilever_model(folder_name, nx,ny,nz):
+def create_cantilever_model(folder_name, nx,ny,nz,file_path):
 
     ## Create Base Model for Cantilever Beam
 
@@ -74,11 +94,6 @@ def create_cantilever_model(folder_name, nx,ny,nz):
     part_ = mdb.models['Model-1'].parts['Part-1']
     part_.generateMesh()
 
-
-
-    # part_.seedPart(size=5.0, deviationFactor=0.1, minSizeFactor=0.1)
-    # part_ = mdb.models['Model-1'].parts['Part-1']
-    # part_.generateMesh()
     assembly_= mdb.models['Model-1'].rootAssembly
     assembly_.regenerate()
 
@@ -88,6 +103,8 @@ def create_cantilever_model(folder_name, nx,ny,nz):
     region = assembly_.Set(faces=faces1, name='Fixed_Face')
     mdb.models['Model-1'].EncastreBC(name='BC-1', createStepName='Initial', 
         region=region, localCsys=None)
+    
+    # mdb.saveAs(pathName=file_path)
 
     assembly_= mdb.models['Model-1'].rootAssembly
     assembly_.ReferencePoint(point=(0.0, -20.0, 100.0))
@@ -126,20 +143,14 @@ def create_cantilever_model(folder_name, nx,ny,nz):
         'CDISP', 'CF', 'CSTRESS', 'LE', 'PE', 'PEEQ', 'PEMAG', 'RF', 'S', 'U', 
         'SENER', 'EVOL'))
     
-    home = os.path.expanduser("~")
-
-    working_directory = os.path.join(home, "Abaqus_Euler")
-
-    # Create directory if it doesn't exist
-    os.makedirs(working_directory, exist_ok=True)
-
-    file_name = folder_name + "_base_model.cae"
-    file_path = os.path.join(working_directory, file_name)
-
     mdb.saveAs(pathName=file_path)
+    
+
 
 
 def main():
+    ## testing outputs and imports
+
     message_single_cantilever_step = "Test Message.\n"
     sys.__stdout__.write(message_single_cantilever_step)
     sys.__stdout__.flush()
@@ -151,8 +162,33 @@ def main():
     arr2 = import_test.test_array()
     sys.__stdout__.write('arr2'+str(arr2) + "\n")
     sys.__stdout__.flush()
-    create_cantilever_model("Cantilever_Test", 4,4,8)
 
 
+    ## windows path for blade server
+    working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
+
+    ## unix path for Euler
+    # home = os.path.expanduser("~")
+
+    # working_directory = os.path.join(home, "Abaqus_Euler")
+
+    # Create directory if it doesn't exist
+    os.makedirs(working_directory, exist_ok=True)
+
+    folder_name = "Euler_Test"
+    file_name = folder_name + "_model.cae"
+    file_path = os.path.join(working_directory, file_name)
+
+    
+    # create an abaqus model
+    create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
+
+
+    # mdb.saveAs(pathName=file_path)
+
+
+
+if __name__ == "__main__":
+    main()
 
 

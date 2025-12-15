@@ -1,0 +1,4 @@
+abaqus*.*
+*.cae
+*.jnl
+__pycache__

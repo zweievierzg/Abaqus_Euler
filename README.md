@@ -1,2 +1,4 @@
 # Abaqus_Euler
-Runs Abaqus on Euler HPC
+Should run Abaqus on Euler HPC.
+
+Running on windows works
