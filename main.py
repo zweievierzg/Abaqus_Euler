@@ -150,7 +150,7 @@ def main():
 
     ## unix path for Euler
     home = os.path.expanduser("~")
-    working_directory = os.path.join(home, "Abaqus_Euler")
+    working_directory = os.path.join(home, "Abaqus_Euler/Working_Directory")
 
     # Create directory if it doesn't exist
     if not os.path.exists(working_directory):
