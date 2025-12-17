@@ -112,14 +112,15 @@ def Euler_Test_Model(file_path):
     session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
         predefinedFields=OFF, connectors=OFF)
     
-    home = "/cluster/work/fuge/wilang/"
-    working_directory = os.path.join(home, "Abaqus_Euler_1")
+    # home = "/cluster/work/fuge/wilang/"
+    home = os.path.expanduser("~")
+    working_directory = os.path.join(home, "Abaqus_Euler")
 
     # Create directory if it doesn't exist
     if not os.path.exists(working_directory):
         os.makedirs(working_directory)
 
-    file_name = folder_name + "_base_model.cae"
+    file_name = folder_name + "_base_model_test.cae"
     file_path = os.path.join(working_directory, file_name)
 
     mdb.saveAs(pathName=file_path)
