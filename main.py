@@ -113,7 +113,7 @@ def Euler_Test_Model(file_path):
         predefinedFields=OFF, connectors=OFF)
     
     home = "/cluster/work/fuge/wilang/"
-    working_directory = os.path.join(home, "Abaqus_Euler")
+    working_directory = os.path.join(home, "Abaqus_Euler_1")
 
     # Create directory if it doesn't exist
     if not os.path.exists(working_directory):
