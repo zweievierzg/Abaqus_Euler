@@ -116,7 +116,8 @@ def Euler_Test_Model(file_path):
     working_directory = os.path.join(home, "Abaqus_Euler")
 
     # Create directory if it doesn't exist
-    os.makedirs(working_directory, exist_ok=True)
+    if not os.path.exists(working_directory):
+        os.makedirs(working_directory)
 
     file_name = folder_name + "_base_model.cae"
     file_path = os.path.join(working_directory, file_name)
@@ -153,9 +154,6 @@ def main():
     sys.__stdout__.write('arr2'+str(arr2) + "\n")
     sys.__stdout__.flush()
 
-    sys.__stdout__.write("<<<<<<<<<< Enter Folder Name:")
-    sys.__stdout__.flush()
-    folder_name = raw_input()
 
     create_cantilever_model("Cantilever_Test", 4,4,8)
 
