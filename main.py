@@ -149,7 +149,8 @@ def main():
     # working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
 
     ## unix path for Euler
-    home = os.path.expanduser("~")
+    # home = os.path.expanduser("~")
+    home = "/cluster/work/fuge/wilang/"
     working_directory = os.path.join(home, "Abaqus_Euler/Working_Directory")
 
     # Create directory if it doesn't exist

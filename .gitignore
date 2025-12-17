@@ -3,3 +3,4 @@ abaqus*.*
 *.jnl
 __pycache__
 Job-1.*
+Working_Directory/
