@@ -126,8 +126,7 @@ def create_cantilever_model(folder_name, nx,ny,nz):
         'CDISP', 'CF', 'CSTRESS', 'LE', 'PE', 'PEEQ', 'PEMAG', 'RF', 'S', 'U', 
         'SENER', 'EVOL'))
     
-    home = os.path.expanduser("~")
-
+    home = "/cluster/work/fuge/wilang/"
     working_directory = os.path.join(home, "Abaqus_Euler")
 
     # Create directory if it doesn't exist
@@ -151,6 +150,11 @@ def main():
     arr2 = import_test.test_array()
     sys.__stdout__.write('arr2'+str(arr2) + "\n")
     sys.__stdout__.flush()
+
+    sys.__stdout__.write("<<<<<<<<<< Enter Folder Name:")
+    sys.__stdout__.flush()
+    folder_name = raw_input()
+
     create_cantilever_model("Cantilever_Test", 4,4,8)
 
 
