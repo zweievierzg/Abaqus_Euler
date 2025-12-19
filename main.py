@@ -162,7 +162,8 @@ def main():
     ## unix path for Euler
     home = os.path.expanduser("~")
     #home = "/cluster/work/fuge/wilang/"
-    working_directory = os.path.join(home, "Abaqus_Euler/Working_Directory")
+    # working_directory = os.path.join(home, "Abaqus_Euler/Working_Directory")
+    working_directory = os.path.join(home, "Abaqus_Euler/")
 
     # Create directory if it doesn't exist
     if not os.path.exists(working_directory):
