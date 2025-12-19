@@ -156,7 +156,30 @@ def main():
     sys.__stdout__.flush()
 
 
-    create_cantilever_model("Cantilever_Test", 4,4,8)
+    ## windows path for blade server
+    # working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
+
+    ## unix path for Euler
+    # home = os.path.expanduser("~")
+    home = "/cluster/work/fuge/wilang/"
+    working_directory = os.path.join(home, "Abaqus_Euler/Working_Directory")
+
+    # Create directory if it doesn't exist
+    if not os.path.exists(working_directory):
+        os.makedirs(working_directory)
+
+    folder_name = "Euler_Test"
+    file_name_1 = folder_name + "_model_doc.cae"
+    file_path_1 = os.path.join(working_directory, file_name_1)
+
+    Euler_Test_Model(file_path_1)
+
+    os.chdir(working_directory)
+
+    file_name_2 = folder_name + "_model_work.cae"
+    file_path_2 = os.path.join(working_directory, file_name_2)
+
+    mdb.saveAs(pathName=file_path_2)
 
 
 
