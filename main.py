@@ -158,16 +158,17 @@ def main():
         os.makedirs(working_directory)
 
     folder_name = "Euler_Test"
-    file_name = folder_name + "_model_2.cae"
-    file_path = os.path.join(working_directory, file_name)
+    file_name_1 = folder_name + "_model_doc.cae"
+    file_path_1 = os.path.join(working_directory, file_name_1)
 
-    
-    # create an abaqus model
-    # create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
-    Euler_Test_Model(file_path)
+    Euler_Test_Model(file_path_1)
 
+    os.chdir(working_directory)
 
-    # mdb.saveAs(pathName=file_path)
+    file_name_2 = folder_name + "_model_work.cae"
+    file_path_2 = os.path.join(working_directory, file_name_2)
+
+    mdb.saveAs(pathName=file_path_2)
 
 
 
