@@ -112,17 +112,6 @@ def Euler_Test_Model(file_path):
     session.viewports['Viewport: 1'].assemblyDisplay.setValues(loads=OFF, bcs=OFF, 
         predefinedFields=OFF, connectors=OFF)
     
-    # home = "/cluster/work/fuge/wilang/"
-    home = os.path.expanduser("~")
-    working_directory = os.path.join(home, "Abaqus_Euler")
-
-    # Create directory if it doesn't exist
-    if not os.path.exists(working_directory):
-        os.makedirs(working_directory)
-
-    file_name = folder_name + "_base_model_test.cae"
-    file_path = os.path.join(working_directory, file_name)
-
     mdb.saveAs(pathName=file_path)
 
 
@@ -156,7 +145,28 @@ def main():
     sys.__stdout__.flush()
 
 
-    create_cantilever_model("Cantilever_Test", 4,4,8)
+    ## windows path for blade server
+    # working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
+
+    ## unix path for Euler
+    home = os.path.expanduser("~")
+    working_directory = os.path.join(home, "Abaqus_Euler")
+
+    # Create directory if it doesn't exist
+    if not os.path.exists(working_directory):
+        os.makedirs(working_directory)
+
+    folder_name = "Euler_Test"
+    file_name = folder_name + "_model_3.cae"
+    file_path = os.path.join(working_directory, file_name)
+
+    
+    # create an abaqus model
+    # create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
+    Euler_Test_Model(file_path)
+
+
+    # mdb.saveAs(pathName=file_path)
 
 
 
