@@ -148,25 +148,49 @@ def main():
     ## windows path for blade server
     # working_directory = r"C:\Users\langw\Desktop\ETH sache\Semester Project\Scripts_Local\Abaqus_Euler"
 
-    ## unix path for Euler
-    home = os.path.expanduser("~")
-    working_directory = os.path.join(home, "Abaqus_Euler")
+
+    home = "/cluster/work/fuge/wilang/"
+    working_directory = os.path.join(home, "Abaqus_Euler/Working_Directory_test")
 
     # Create directory if it doesn't exist
     if not os.path.exists(working_directory):
         os.makedirs(working_directory)
 
     folder_name = "Euler_Test"
-    file_name = folder_name + "_model_3.cae"
-    file_path = os.path.join(working_directory, file_name)
+    file_name_1 = folder_name + "_model_doc.cae"
+    file_path_1 = os.path.join(working_directory, file_name_1)
+
+    Euler_Test_Model(file_path_1)
+
+    os.chdir(working_directory)
+
+    file_name_2 = folder_name + "_model_work.cae"
+    file_path_2 = os.path.join(working_directory, file_name_2)
+
+    mdb.saveAs(pathName=file_path_2)
+
+
 
     
-    # create an abaqus model
-    # create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
-    Euler_Test_Model(file_path)
+    # ## unix path for Euler
+    # home = os.path.expanduser("~")
+    # working_directory = os.path.join(home, "Abaqus_Euler")
+
+    # # Create directory if it doesn't exist
+    # if not os.path.exists(working_directory):
+    #     os.makedirs(working_directory)
+
+    # folder_name = "Euler_Test"
+    # file_name = folder_name + "_model_3.cae"
+    # file_path = os.path.join(working_directory, file_name)
+
+    
+    # # create an abaqus model
+    # # create_cantilever_model("Cantilever_Test", 4,4,8, file_path)
+    # Euler_Test_Model(file_path)
 
 
-    # mdb.saveAs(pathName=file_path)
+    # # mdb.saveAs(pathName=file_path)
 
 
 
